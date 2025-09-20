@@ -1,0 +1,10 @@
+{
+  "name": "FiniteAutomataModule-Editor",
+  "references": [
+    "FiniteAutomataModule"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": []
+}
