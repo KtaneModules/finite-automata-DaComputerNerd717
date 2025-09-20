@@ -7,10 +7,10 @@
   "ModuleID": "FiniteAutomataModule",
   "Name": "Finite Automata",
   "Origin": "Mods",
-  "Published": "2025-9-20",
+  "Published": "2025-09-20",
   "SortKey": "FINITEAUTOMATA",
-  "SourceUrl": "temp",
-  "SteamID": 3571645338,
+  "SourceUrl": "https://github.com/DaComputerNerd717/finite-automata",
+  "SteamID": "3571645338",
   "Symbol": "Fa",
   "Type": "Regular"
 }
