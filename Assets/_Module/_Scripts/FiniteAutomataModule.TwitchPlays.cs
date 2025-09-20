@@ -128,8 +128,11 @@ partial class FiniteAutomataModule
         if (submitMatch.Success)
         {
             yield return null;
-            page = REGEX_PAGES;
-            Submit();
+            var setPage = SetPage(REGEX_PAGES);
+            while (setPage.MoveNext()) {
+                yield return setPage.Current; 
+            }
+            yield return _submitButton;
             yield break;
         }
         //if transition didn't match, that probably should mean that the command specified an invalid regex
