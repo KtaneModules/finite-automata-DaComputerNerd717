@@ -4,13 +4,13 @@
   "DefuserDifficulty": "Easy",
   "Description": "Convert regexes to finite automata Tags: black-screen text-display left-arrow right-arrow submit-button 3-buttons regex many-symbols",
   "ExpertDifficulty": "Hard",
-  "ModuleID": "DCN_FiniteAutomataModule",
+  "ModuleID": "FiniteAutomataModule",
   "Name": "Finite Automata",
   "Origin": "Mods",
-  "Published": "2025-5-24",
+  "Published": "2025-9-20",
   "SortKey": "FINITEAUTOMATA",
   "SourceUrl": "temp",
-  "SteamID": null,
+  "SteamID": 3571645338,
   "Symbol": "Fa",
   "Type": "Regular"
 }
