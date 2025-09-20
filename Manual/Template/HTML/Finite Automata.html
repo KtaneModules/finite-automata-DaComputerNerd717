@@ -24,9 +24,9 @@
             margin-top: 5px;
             margin-bottom: 3px;
         }
-		ul {
-			margin-top: 5px;
-		}
+        ul {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -66,7 +66,7 @@
                 <span class="page-header-section-title">Finite Automata</span>
             </div>
             <div class="page-content">
-				<h3>Determining which regexes and operations to use</h3>
+                <h3>Determining which regexes and operations to use</h3>
                 <p>To determine which regex or regexes to use, look at the digits of the serial number.</p>
                 If there is an odd number of digits in the serial number:
                 <ol>
@@ -100,25 +100,25 @@
                 <span class="page-header-section-title">Finite Automata</span>
             </div>
             <div class="page-content">
-				<ul style="margin:0;">
-					<li>(Optional) If, at any time, any state has no possible paths along any number of transitions leading from it to a goal state, it can be removed.</li>
-					<li>
+                <ul style="margin:0;">
+                    <li>(Optional) If, at any time, any state has no possible paths along any number of transitions leading from it to a goal state, it can be removed.</li>
+                    <li>
                         <p style="margin:0">(Optional) Any unreachable state can be removed at any time.</p>
                         <p style="margin-top:4px;margin-bottom:4px;">A state is "reachable" if there is a path along the transitions from a start state to that state. If not, it is "unreachable".</p>
                     </li>
-				</ul>
+                </ul>
                 <ul style="margin:0;">
-					<li>While there are transitions for which the regex is not <code>a</code>, <code>b</code>, or <code>ε</code>:
+                    <li>While there are transitions for which the regex is not <code>a</code>, <code>b</code>, or <code>ε</code>:
                         <ul>
                             <li>Pick one of those transitions. Let's call it <var>e</var>.</li>
                             <li>Identify the outermost operation in the regex of <var>e</var>:
                                 <ul>
                                     <li>If the outermost operation in the regex is parentheses surrounding the whole expression, remove the parentheses and continue down this list.</li>
-									<li>If the outermost operation is a Kleene star <code>R*</code> of some regex <var>R</var>, do the following:
+                                    <li>If the outermost operation is a Kleene star <code>R*</code> of some regex <var>R</var>, do the following:
                                         <ol>
                                             <li>Add a new state</li>
                                             <li>Connect from the source of <var>e</var> to the new state with an ε transition</li>
-											<li>Connect from the new state to the destination of <var>e</var> with an ε transition</li>
+                                            <li>Connect from the new state to the destination of <var>e</var> with an ε transition</li>
                                             <li>Connect the new state to itself, with <var>R</var> as the transition</li>
                                             <li>Remove <var>e</var></li>
                                         </ol>
@@ -157,15 +157,15 @@
                 <span class="page-header-section-title">Finite Automata</span>
             </div>
             <div class="page-content">
-				<ul style="margin-top:0px">
-					<li style="list-style-type:none;">
-						<ol start="3">
-							<li>For each transition <var>t</var> which leads to <var>A</var>, add a copy of <var>t</var> which leads to <var>B</var> instead.</li>
-							<li>If <var>B</var> is a goal state, then make <var>A</var> a goal state.</li>
-							<li>Remove <var>e</var>.</li>
-						</ol>
-					</li>
-					<li>For each state <var>S</var> which still has multiple outgoing transitions with the same regex:
+                <ul style="margin-top:0px">
+                    <li style="list-style-type:none;">
+                        <ol start="3">
+                            <li>For each transition <var>t</var> which leads to <var>A</var>, add a copy of <var>t</var> which leads to <var>B</var> instead.</li>
+                            <li>If <var>B</var> is a goal state, then make <var>A</var> a goal state.</li>
+                            <li>Remove <var>e</var>.</li>
+                        </ol>
+                    </li>
+                    <li>For each state <var>S</var> which still has multiple outgoing transitions with the same regex:
                         <ol>
                             <li>Create a new state</li>
                             <li>For each transition <var>t</var> starting at state <var>S</var> with that regex:
@@ -210,17 +210,17 @@
             </div>
             <div class="page-content">
                 <ul style="margin:0;">
-					<li style="list-style-type:none;">
-						<ol start="2">
-							<li style="list-style-type:none;">pair of the two start states in the input finite automata.</li>
-							<li>If either start state in the input automata is a goal state, the start group state is also a goal state.</li>
-							<li>Follow the transitions from the corresponding states on each input automaton for both <code>a</code> and <code>b</code>, to find the states each input leads to.
+                    <li style="list-style-type:none;">
+                        <ol start="2">
+                            <li style="list-style-type:none;">pair of the two start states in the input finite automata.</li>
+                            <li>If either start state in the input automata is a goal state, the start group state is also a goal state.</li>
+                            <li>Follow the transitions from the corresponding states on each input automaton for both <code>a</code> and <code>b</code>, to find the states each input leads to.
                                 <ul>
                                     <li>We can label the group state by the number of the state in the two input DFAs which correlate to it. For instance, if <var>a</var> leaving state 1 in A and B goes to 2 and 3, respectively, then the output automaton has an <var>a</var> transition from 1,1 to 2,3.</li>
                                 </ul>
                             </li>
                             <li>If there is no group state which correlates to this pair, add a new group state which correlates to that pair.</li>
-							<li>If either state in the pair is a goal on its finite automaton, the group state is also a goal.
+                            <li>If either state in the pair is a goal on its finite automaton, the group state is also a goal.
                                 <ul>
                                     <li>So, if state 3 in automaton <var>B</var> was a goal state, then group state 2,3 is also a goal state.</li>
                                 </ul>
@@ -231,8 +231,8 @@
                                 </ul>
                             </li>
                             <li>Repeat this process from step 4 on for each new group state added, until there are no new group states left to process. Then, continue.</li>
-						</ol>
-					</li>
+                        </ol>
+                    </li>
                     <li style="list-style-type: none;">
                         <ol start="9">
                             <li>Rename the nodes to have numbers as their indices instead of pairs, replacing each instance of a particular pair with the corresponding number. This is the result DFA.</li>
