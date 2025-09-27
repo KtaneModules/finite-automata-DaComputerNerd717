@@ -408,7 +408,7 @@ public partial class FiniteAutomataModule : MonoBehaviour
         }
         //Debug.Assert(submittedTree.GetNode(0).start);
         //Log("Connections done");
-        //Log("Trimming spacer nodes");
+        //Log("Trimming spacer nodes");)
         submittedTree.TrimDisconnected();
         //Log("Testing equality");
         string reason;
@@ -420,7 +420,7 @@ public partial class FiniteAutomataModule : MonoBehaviour
         else
         {
             //Log("Incorrect answer submitted: " + reason);
-            Strike("Incorrect answer");
+            Strike($"Incorrect answer: {reason}");
         }
     }
 

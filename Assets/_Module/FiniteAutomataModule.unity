@@ -381,6 +381,11 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 2c7054c6ecd0b6d49b77640f95c83d1b,
         type: 2}
+    - target: {fileID: 114745828406521922, guid: 8a7c243548327a24da44e4ae60d871d3,
+        type: 2}
+      propertyPath: ModuleType
+      value: FiniteAutomataModule
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8a7c243548327a24da44e4ae60d871d3, type: 2}
   m_IsPrefabParent: 0

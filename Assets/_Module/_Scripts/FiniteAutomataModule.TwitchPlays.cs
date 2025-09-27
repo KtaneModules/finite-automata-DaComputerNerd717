@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Text.RegularExpressions;
-using UnityEditorInternal;
 
 #pragma warning disable IDE1006
 // ! This name must match the name in the main class file.

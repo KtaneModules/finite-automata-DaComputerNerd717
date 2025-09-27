@@ -340,7 +340,12 @@ namespace DCN.FiniteAutomata{
 
 		public void TrimDisconnected()
 		{
-			int start = FindNode(nodes.Where(n => n.start).First());
+			if (nodes.Count == 0)
+				return;
+			var query = nodes.Where(n => n.start);
+			if (query.Count() != 1) //no start means all nodes are unreachable, and will be detected as incorrect in final equality check
+				return;
+            int start = FindNode(query.First());
 			Queue<int> frontier = new Queue<int>();
 			frontier.Enqueue(start);
             HashSet<int> connected = new HashSet<int>();
@@ -384,20 +389,20 @@ namespace DCN.FiniteAutomata{
 				cause = "One of the NFAs was invalid";
                 return false;
 			}
-			if(!this.nodes.Where(n => n.start).Any()) //this has no start
+			if(this.nodes.Where(n => n.start).Count() != 1) //this has no start, or too many
 			{
 				//UnityEngine.Debug.Log(ToString());
-				cause = "Submitted has no start";
+				cause = "Submitted NFA must have exactly 1 start";
 				return false;
 			}
-            if (!other.nodes.Where(n => n.start).Any()) //other has no start
+            if (other.nodes.Where(n => n.start).Count() != 1) //other has no start, or too many
             {
 				//UnityEngine.Debug.Log(other.ToString());
-				cause = "Correct has no start";
+				cause = "Correct NFA does not have exactly 1 start. This is an error.";
                 return false;
             }
             if (!isValid){ //both must be equal so this means both are invalid
-				cause = "Both NFAs invalid";
+				cause = "Both NFAs are invalid";
 				return true;
 			}
 			TreeNFA diff1 = this.DoComplement().DoIntersection(other);
