@@ -2962,18 +2962,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66b3c8128d639fd46bce6499deafd632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftButton: {fileID: 824169026}
-  _rightButton: {fileID: 489366258}
-  _submitButton: {fileID: 1147677883}
+  _leftButton: {fileID: 824169023}
+  _rightButton: {fileID: 489366255}
+  _submitButton: {fileID: 1147677880}
   _text: {fileID: 1010690604}
-  _a1_zone: {fileID: 640642304}
-  _a2_zone: {fileID: 1561915943}
-  _b1_zone: {fileID: 898380101}
-  _b2_zone: {fileID: 1703968040}
-  _label1_zone: {fileID: 1395131159}
-  _label2_zone: {fileID: 476677307}
-  _up_zone: {fileID: 932312112}
-  _down_zone: {fileID: 301917340}
+  _a1_zone: {fileID: 640642299}
+  _a2_zone: {fileID: 1561915938}
+  _b1_zone: {fileID: 898380096}
+  _b2_zone: {fileID: 1703968035}
+  _label1_zone: {fileID: 1395131154}
+  _label2_zone: {fileID: 476677302}
+  _up_zone: {fileID: 932312107}
+  _down_zone: {fileID: 301917342}
   _moduleSelect: {fileID: 1639602089}
 --- !u!114 &1639602088
 MonoBehaviour:

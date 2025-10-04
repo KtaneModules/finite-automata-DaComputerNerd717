@@ -116,7 +116,16 @@ partial class FiniteAutomataModule
                 yield return "sendtochaterror Destination must be positive!";
                 yield break;
             }
-            var setEdge = SetTransition(state, transitionMatch.Groups[2].Value.EqualsIgnoreCase("a"), destination);
+            if(destination >= tableRows.Count)
+            {
+                var scroll = ScrollToRow(destination);
+                while (scroll.MoveNext())
+                {
+                    yield return scroll.Current;
+                }
+            }
+            yield return null;
+            var setEdge = SetTransition(state-1, transitionMatch.Groups[2].Value.EqualsIgnoreCase("a"), destination);
             while (setEdge.MoveNext())
             {
                 yield return setEdge.Current;
@@ -131,6 +140,8 @@ partial class FiniteAutomataModule
             while (setPage.MoveNext()) {
                 yield return setPage.Current; 
             }
+            yield return _submitButton;
+            yield return null;
             yield return _submitButton;
             yield break;
         }
@@ -155,7 +166,7 @@ partial class FiniteAutomataModule
 
     private IEnumerator SetPage(int page)
     {
-        while(this.page != page)
+        while (this.page != page)
         {
             yield return _rightButton;
             yield return null;
@@ -165,139 +176,144 @@ partial class FiniteAutomataModule
         yield break;
     }
 
-    private IEnumerator ToggleGoal(int row)
+    /// <summary>
+    /// Guarantees the requested row will be on screen. Follow with a check to currentRowDisplayed == row to identify where the requested row is
+    /// </summary>
+    /// <param name="row">The requested row, 0-indexed</param>
+    /// <returns></returns>
+    private IEnumerator ScrollToRow(int row)
     {
-        IEnumerator setPage = SetPage(REGEX_PAGES);
-        while (setPage.MoveNext())
+        int currentRow = currentRowDisplayed;
+        if(currentRow == row && row > 0) //row in top of display, we want to put the row in the bottom if possible
         {
-            yield return setPage.Current;
+            yield return _up_zone;
+            yield return null;
+            yield return _up_zone;
+            yield return null;
         }
-        yield return _rightButton; //release button
-        if (currentRowDisplayed < row)
+        else if(currentRow + 1 < row) //requested row is below the display
         {
-            while (currentRowDisplayed < row)
+            while(currentRow++ + 1 < row)
             {
                 yield return _down_zone;
                 yield return null;
-                yield return _down_zone; //release button
-                yield return null;
-            }
-            int currentFlag = tableRows[currentRowDisplayed][0];
-          while (tableRows[currentRowDisplayed][0] != (currentFlag ^ goalFlag))
-            {
-                yield return _label1_zone;
-                yield return null;
-                yield return _label1_zone; //release button
+                yield return _down_zone;
                 yield return null;
             }
         }
-        else
+        else if (currentRow > row) //requested row is above the display
         {
-            while (currentRowDisplayed > row + 1)
+            while(currentRow-- > row)
             {
+                //Log($"Going up from row {currentRow}");
                 yield return _up_zone;
                 yield return null;
-                yield return _up_zone; //release button
+                yield return _up_zone;
                 yield return null;
             }
-                
-            int currentFlag = tableRows[currentRowDisplayed+1][0];
-          while (tableRows[currentRowDisplayed+1][0] != (currentFlag ^ goalFlag))
+            if (row > 0) //put the row in the bottom if possible
             {
-                yield return _label2_zone;
+                //Log("Going up one more time");
+                yield return _up_zone;
                 yield return null;
-                yield return _label2_zone; //release button
+                yield return _up_zone;
                 yield return null;
             }
+        }
+    }
+
+    private IEnumerator ToggleStartHelper(bool top)
+    {
+        int row = top ? currentRowDisplayed : currentRowDisplayed + 1;
+        int currentFlag = tableRows[row][0];
+        while (tableRows[row][0] != (currentFlag ^ startFlag))
+        {
+            yield return top ? _label1_zone : _label2_zone;
+            yield return null;
+            yield return top ? _label1_zone : _label2_zone; //release button
+            yield return null;
+        }
+    }
+
+    private IEnumerator ToggleGoalHelper(bool top)
+    {
+        int row = top ? currentRowDisplayed : currentRowDisplayed + 1;
+        int currentFlag = tableRows[row][0];
+        while (tableRows[row][0] != (currentFlag ^ goalFlag))
+        {
+            yield return top ? _label1_zone : _label2_zone;
+            yield return null;
+            yield return top ? _label1_zone : _label2_zone; //release button
+            yield return null;
+        }
+    }
+
+    private IEnumerator SetTransitionHelper(bool top, bool a, int value) {
+        int row = top ? currentRowDisplayed : currentRowDisplayed + 1;
+        int rowDex = a ? 2 : 3;
+        while (tableRows[row][rowDex] != value)
+        {
+            yield return a ? (top ? _a1_zone : _a2_zone) : (top ? _b1_zone : _b2_zone);
+            yield return null;
+            yield return a ? (top ? _a1_zone : _a2_zone) : (top ? _b1_zone : _b2_zone);
+            yield return null;
         }
     }
 
     private IEnumerator ToggleStart(int row)
     {
-        IEnumerator setPage = SetPage(REGEX_PAGES);
-        while (setPage.MoveNext())
+        var set_page = SetPage(REGEX_PAGES);
+        while (set_page.MoveNext())
         {
-            yield return setPage.Current;
+            yield return set_page.Current;
         }
-        if (currentRowDisplayed < row)
+        var scroll = ScrollToRow(row);
+        while (scroll.MoveNext())
         {
-            while (currentRowDisplayed < row)
-            {
-                yield return _down_zone;
-                yield return null;
-                yield return _down_zone; //release button
-                yield return null;
-            }
-            int currentFlag = tableRows[currentRowDisplayed][0];
-            while (tableRows[currentRowDisplayed][0] != (currentFlag ^ startFlag))
-            {
-                yield return _label1_zone;
-                yield return null;
-                yield return _label1_zone; //release button
-                yield return null;
-            }
+            yield return scroll.Current;
         }
-        else
+        var toggle = ToggleStartHelper(row == 0);
+        while (toggle.MoveNext())
         {
-            while (currentRowDisplayed > row + 1)
-            {
-                yield return _up_zone;
-                yield return null;
-                yield return _up_zone; //release button
-                yield return null;
-            }
-            int currentFlag = tableRows[currentRowDisplayed + 1][0];
-            while (tableRows[currentRowDisplayed + 1][0] != (currentFlag ^ startFlag))
-            {
-                yield return _label2_zone;
-                yield return null;
-                yield return _label2_zone; //release button
-                yield return null;
-            }
+            yield return toggle.Current;
+        }
+    }
+
+    private IEnumerator ToggleGoal(int row)
+    {
+        var set_page = SetPage(REGEX_PAGES);
+        while (set_page.MoveNext())
+        {
+            yield return set_page.Current;
+        }
+        var scroll = ScrollToRow(row);
+        while (scroll.MoveNext())
+        {
+            yield return scroll.Current;
+        }
+        var toggle = ToggleGoalHelper(row == 0);
+        while (toggle.MoveNext())
+        {
+            yield return toggle.Current;
         }
     }
 
     private IEnumerator SetTransition(int from, bool settingA, int to)
     {
-        IEnumerator setPage = SetPage(REGEX_PAGES);
-        while (setPage.MoveNext())
+        var set_page = SetPage(REGEX_PAGES);
+        while (set_page.MoveNext())
         {
-            yield return setPage.Current;
+            yield return set_page.Current;
         }
-        if (currentRowDisplayed < from)
+        var scroll = ScrollToRow(from);
+        while (scroll.MoveNext())
         {
-            while (currentRowDisplayed < from)
-            {
-                yield return _down_zone;
-                yield return null;
-                yield return _down_zone; //release button
-                yield return null;
-            }
-                
-            while (tableRows[currentRowDisplayed][0] != to)
-            {
-                yield return settingA ? _a1_zone : _b1_zone;
-                yield return null;
-                yield return settingA ? _a1_zone : _b1_zone; //release button
-                yield return null;
-            } 
+            yield return scroll.Current;
         }
-        else
+        var set = SetTransitionHelper(from == 0, settingA, to);
+        while (set.MoveNext())
         {
-            while (currentRowDisplayed > from + 1)
-            {
-                yield return _up_zone;
-                yield return null;
-                yield return _up_zone; //release button
-                yield return null;
-            }
-            while (tableRows[currentRowDisplayed+1][0] != to)
-            {
-                yield return settingA ? _a2_zone : _b2_zone;
-                yield return null;
-                yield return settingA ? _a2_zone : _b2_zone; //release button
-                yield return null;
-            }
+            yield return set.Current;
         }
     }
 }

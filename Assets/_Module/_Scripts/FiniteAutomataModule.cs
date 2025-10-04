@@ -34,30 +34,30 @@ public partial class FiniteAutomataModule : MonoBehaviour
     int currentRowDisplayed = 0;
 
     [SerializeField]
-    private Button _leftButton;
+    private KMSelectable _leftButton;
     [SerializeField]
-    private Button _rightButton;
+    private KMSelectable _rightButton;
     [SerializeField]
-    private Button _submitButton;
+    private KMSelectable _submitButton;
 
     [SerializeField]
     private Text _text;
     [SerializeField]
-    private Button _a1_zone;
+    private KMSelectable _a1_zone;
     [SerializeField]
-    private Button _a2_zone;
+    private KMSelectable _a2_zone;
     [SerializeField]
-    private Button _b1_zone;
+    private KMSelectable _b1_zone;
     [SerializeField]
-    private Button _b2_zone;
+    private KMSelectable _b2_zone;
     [SerializeField]
-    private Button _label1_zone;
+    private KMSelectable _label1_zone;
     [SerializeField]
-    private Button _label2_zone;
+    private KMSelectable _label2_zone;
     [SerializeField]
-    private Button _up_zone;
+    private KMSelectable _up_zone;
     [SerializeField]
-    private Button _down_zone;
+    private KMSelectable _down_zone;
 
     [SerializeField]
     private KMSelectable _moduleSelect;
@@ -346,22 +346,24 @@ public partial class FiniteAutomataModule : MonoBehaviour
         return Math.Pow(Math.Max(0, (1 / Math.Max(1, x - MIN_REGEX_LENGTH + 1)) - 1 / (MAX_REGEX_LENGTH - MIN_REGEX_LENGTH + 1)), 0.3);
     }
 
-    private void TurnPageLeft()
+    private bool TurnPageLeft()
     {
         //Log("Left button pressed");
         page--;
         if (page < 0) page += (REGEX_PAGES + 1);
         //Log("Going to page " + page);
         RedrawPage();
+        return false;
     }
 
-    private void TurnPageRight()
+    private bool TurnPageRight()
     {
         //Log("Right button pressed");
         page++;
         if(page > REGEX_PAGES) page -= (REGEX_PAGES + 1);
         //Log("Going to page " + page);
         RedrawPage();
+        return false;
     }
 
     private bool isRowValid(int[] row)
@@ -369,7 +371,7 @@ public partial class FiniteAutomataModule : MonoBehaviour
         return row.Length == 4 && row[1] > 0 && row[2] > 0 && row[3] > 0;
     }
     
-    private void Submit()
+    private bool Submit()
     {
         //Log("Submit button pressed");
         //interpret the entries and check
@@ -422,9 +424,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             //Log("Incorrect answer submitted: " + reason);
             Strike($"Incorrect answer: {reason}");
         }
+        return false;
     }
 
-    private void OnA1Touch()
+    private bool OnA1Touch()
     {
         //Log("A1 Touched");
         if (page == REGEX_PAGES)
@@ -435,9 +438,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed][2] = temp;
             RedrawPage();
         }
+        return false;
     }
 
-    private void OnA2Touch()
+    private bool OnA2Touch()
     {
         //Log("A2 Touched");
         if (page == REGEX_PAGES)
@@ -448,9 +452,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed + 1][2] = temp;
             RedrawPage();
         }
+        return false;
     }
 
-    private void OnB1Touch()
+    private bool OnB1Touch()
     {
         //Log("B1 Touched");
         if (page == REGEX_PAGES)
@@ -461,9 +466,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed][3] = temp;
             RedrawPage();
         }
+        return false;
     }
 
-    private void OnB2Touch()
+    private bool OnB2Touch()
     {
         //Log("B2 Touched");
         if (page == REGEX_PAGES)
@@ -474,9 +480,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed + 1][3] = temp;
             RedrawPage();
         }
+        return false;
     }
 
-    private void OnLabel1Touch()
+    private bool OnLabel1Touch()
     {
         //Log("Label 1 Touched");
         if (page == REGEX_PAGES)
@@ -487,9 +494,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed][0] = temp;
             RedrawPage();
         }
+        return false;
     }
 
-    private void OnLabel2Touch()
+    private bool OnLabel2Touch()
     {
         //Log("Label 2 Touched");
         if (page == REGEX_PAGES)
@@ -500,9 +508,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
             tableRows[currentRowDisplayed+1][0] = temp;
             RedrawPage();
         }
+        return false;
     }
     
-    private void OnUpTouch()
+    private bool OnUpTouch()
     {
         //Log("Up Touched");
         if (page == REGEX_PAGES)
@@ -513,9 +522,10 @@ public partial class FiniteAutomataModule : MonoBehaviour
                 RedrawPage();
             }
         }
+        return false;
     }
 
-    private void OnDownTouch()
+    private bool OnDownTouch()
     {
         //Log("Down Touched");
         if (page == REGEX_PAGES)
@@ -528,6 +538,7 @@ public partial class FiniteAutomataModule : MonoBehaviour
             currentRowDisplayed++;
             RedrawPage();
         }
+        return false;
     }
 
     private void RedrawPage()
